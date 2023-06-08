@@ -1,0 +1,6 @@
+# Don't share your Data!!
+/data/chroma/*
+/data/ingestion/*
+/data/supporting/*
+
+/venv/
