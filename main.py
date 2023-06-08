@@ -19,7 +19,7 @@ def configuration():
         - Model
         - Ingestion Directory
         - Number of files in ingestion directory
-        - Chunk Size
+        - Chunk Size3
         - Chunk Overlap
     :return:
     """

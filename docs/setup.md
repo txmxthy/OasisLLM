@@ -9,7 +9,7 @@ and 64gb of system memory.
 - Python 3.10 is recommended, but 3.7+ should work.
 - Visual Studio 2022 may be required for building the wheel, download it
   from [here](https://visualstudio.microsoft.com/vs/). Make sure to select the python workload to download via the gui
-  to prevent any issues,
+  to prevent any issues.
 - Visual C++ 14 or later is required. You can get it
   from [here](https://visualstudio.microsoft.com/visual-cpp-build-tools/).
   - Otherwise you can install just the C++ build tools with the command below (_ensure your terminal is in the same
@@ -32,4 +32,4 @@ Once the pre-requisites have been fulfilled you can install the requirements.
   ```shell
   pip3 install -r requirements.txt
   ```
-  - You might want to double check any cuda specific dependencies match the version you installed before.
+  - You might want to double-check any cuda specific dependencies match the version you installed before.

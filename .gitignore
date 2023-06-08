@@ -3,4 +3,9 @@
 /data/ingestion/*
 /data/supporting/*
 
+# Keep the dir
+!/data/chroma/.gitkeep
+!/data/ingestion/.gitkeep
+!/data/supporting/.gitkeep
+
 /venv/
