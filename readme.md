@@ -3,7 +3,7 @@
 
 
 <h4 align="center"> 
-    Democratizing LLMs and Enabling Offline Local Querying
+    Enabling Offline Local Querying
 </h4>
 
 [//]: # (Repo Information Badges)
