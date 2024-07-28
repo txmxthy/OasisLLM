@@ -1,3 +1,4 @@
+[Logo](https://raw.githubusercontent.com/txmxthy/OasisLLM/master/Oasis%20Logos/oasis.png)
 <h1 align="center">Welcome to Oasis 🏝️</h1>
 
 
