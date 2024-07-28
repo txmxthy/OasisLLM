@@ -1,7 +1,6 @@
-[Logo](https://raw.githubusercontent.com/txmxthy/OasisLLM/master/Oasis%20Logos/oasis.png)
-<h1 align="center">Welcome to Oasis 🏝️</h1>
-
-
+<h1 align="center">
+  <img src="https://raw.githubusercontent.com/txmxthy/OasisLLM/master/Oasis%20Logos/oasis.png" alt="Logo" style="width:300px; height:auto;">
+</h1>
 
 <h4 align="center"> 
     Enabling Offline Local Querying
