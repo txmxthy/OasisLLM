@@ -29,6 +29,13 @@ jobs:
     - name: Run Ruff
       run: ruff check --fix .
 
+    - name: Commit changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add -A
+        git diff-index --quiet HEAD || git commit -m "Auto-format Python code with Ruff"
+
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v5
       with:
@@ -38,3 +45,4 @@ jobs:
         body: 'This PR was automatically created to format Python code using Ruff.'
         branch: auto-format-${{ github.sha }}
         base: ${{ github.ref }}
+        delete-branch: true
