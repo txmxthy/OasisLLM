@@ -26,15 +26,16 @@ jobs:
     - name: Install Ruff
       run: pip install ruff
 
-    - name: Run Ruff and commit changes
+    - name: Run Ruff and prepare changes
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         ruff check --fix .
         git add -A
-        git diff-index --quiet HEAD || (git commit -m "Auto-format Python code with Ruff" && git push origin HEAD:auto-format-${{ github.sha }})
+        git diff-index --quiet HEAD || echo "CHANGES_EXIST=true" >> $GITHUB_ENV
 
     - name: Create Pull Request
+      if: env.CHANGES_EXIST == 'true'
       uses: peter-evans/create-pull-request@v5
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -44,3 +45,9 @@ jobs:
         branch: auto-format-${{ github.sha }}
         base: ${{ github.ref }}
         delete-branch: true
+
+    - name: Check outputs
+      if: env.CHANGES_EXIST == 'true'
+      run: |
+        echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+        echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
