@@ -15,9 +15,10 @@ def list_models(local_only=False):
     }
 
     if local_only:
+        pass
         # Check which models are available locally
-        local_models = []
-        # @TODO Implement
+        # local_models = []
+        # # @TODO Implement
     return models
 
 
