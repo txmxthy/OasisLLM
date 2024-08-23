@@ -48,7 +48,7 @@ def main(first_run=None):
         # Call the select method and run the selected function
         choice = select([*functions.keys()])
         functions[choice]()
-
+        #
 
 if __name__ == '__main__':
     main(first_run=True)
