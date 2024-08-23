@@ -3,12 +3,10 @@ name: Black
 on:
   push:
     branches:
-      - main
       - master
       - 'feature/*'
   pull_request:
     branches:
-      - main
       - master
       - 'feature/*'
 
@@ -33,7 +31,7 @@ jobs:
 
       - name: Format Code with Black
         run: |
-          black .  # Format all Python files in the repo
+          black . --line-length 40  # Set max line length to 40
 
       - name: Commit Changes
         run: |
@@ -43,18 +41,14 @@ jobs:
             git config --global user.email "github-actions[bot]@users.noreply.github.com"
             git add .
             git commit -m "chore: auto-format code with Black"
-            git push --set-upstream https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/${{ github.repository }}.git auto-format-black-${{ github.run_id }}
+            git push --set-upstream origin auto-format-black-${{ github.run_id }}
           fi
-
-      - name: Push Branch
-        run: |
-          git push origin auto-format-black-${{ github.run_id }}
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           title: "chore: auto-format code with Black"
-          body: "This PR auto-formats the codebase using Black."
-          branch: auto-format-black-${{ github.run_id }}  # This is the branch we pushed
-          base: master  # Target branch for the PR
+          body: "This PR auto-formats the codebase using Black with line length set to 40."
+          branch: auto-format-black-${{ github.run_id }}
+          base: master
