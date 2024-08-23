@@ -7,7 +7,7 @@ from tqdm import tqdm
 from langchain.docstore.document import Document
 
 from langchain.embeddings import HuggingFaceInstructEmbeddings
-    from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Chroma
 
 from utilities.constants import (CHROMA_CFG,
@@ -15,7 +15,7 @@ from utilities.constants import (CHROMA_CFG,
 
 # Config @TODO, Load config from env
 chunk_size = 1000
-chunk_overlap = 200
+chunk_overlap = 200d
 embedding_model="hkunlp/instructor-xl"
 
 
