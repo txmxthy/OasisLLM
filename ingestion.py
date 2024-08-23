@@ -1,22 +1,20 @@
 import os
-from typing import  List
+from typing import List
 import click
-
 from tqdm import tqdm
-
 from langchain.docstore.document import Document
-
 from langchain.embeddings import HuggingFaceInstructEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Chroma
-
 from utilities.constants import (CHROMA_CFG,
-            DOCTYPE_LOADERS, CHROMA_PERSIST_DIR, INGESTION_DIR)
+                                 DOCTYPE_LOADERS,
+                                 CHROMA_PERSIST_DIR,
+                                 INGESTION_DIR)
 
 # Config @TODO, Load config from env
 chunk_size = 1000
 chunk_overlap = 200
-embedding_model="hkunlp/instructor-xl"
+embedding_model = "hkunlp/instructor-xl"
 
 
 def load_files(input_dir:str)->List[Document]:
@@ -41,9 +39,12 @@ def load_files(input_dir:str)->List[Document]:
 
 @click.command()
 @click.option(
-    "--device_type", default="cuda", type=click.Choice(
+    "--device_type",
+    default="cuda",
+    type=click.Choice(
         [
-            "cpu", "cuda",
+            "cpu",
+            "cuda",
         ]
     ),
     help="Hardware to use, cuda preferred",
@@ -55,29 +56,29 @@ def ingest_main(device_type):
     :return:
     """
     # Load
-    files=load_files(INGESTION_DIR)
+    files = load_files(INGESTION_DIR)
 
     # Chunk
-    splitter=RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
-    chunks=splitter.split_documents(files)
+    splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+    chunks = splitter.split_documents(files)
     print(f"Loaded {len(files)} files as {len(chunks)} chunks.")
 
     # Embed
-    embeddings=HuggingFaceInstructEmbeddings(
+    embeddings = HuggingFaceInstructEmbeddings(
         model_name=embedding_model,
         model_kwargs={"device": device_type},
     )
 
     # Chroma DB
-    db=Chroma.from_documents(
+    db = Chroma.from_documents(
         chunks,
         embeddings,
         persist_directory=CHROMA_PERSIST_DIR,
         client_settings=CHROMA_CFG,
     )
     db.persist()
-    db=None
+    db = None
+
 
 if __name__ == "__main__":
     ingest_main()
-
