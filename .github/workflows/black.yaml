@@ -35,16 +35,15 @@ jobs:
         run: |
           black .  # Format all Python files in the repo
 
-      - name: Commit and push changes
-        env:
-          GIT_AUTH: ${{ secrets.PAT_TOKEN }}
+      - name: Commit Changes
         run: |
           if [[ `git status --porcelain` ]]; then
+            git checkout -b auto-format-black-${{ github.run_id }}
             git config --global user.name "github-actions[bot]"
             git config --global user.email "github-actions[bot]@users.noreply.github.com"
             git add .
             git commit -m "chore: auto-format code with Black"
-            git push https://$GIT_AUTH@github.com/${{ github.repository }} HEAD:${{ github.head_ref }}
+            git push --set-upstream origin auto-format-black-${{ github.run_id }}
           fi
 
       - name: Create Pull Request
@@ -53,5 +52,5 @@ jobs:
           token: ${{ secrets.PAT_TOKEN }}
           title: "chore: auto-format code with Black"
           body: "This PR auto-formats the codebase using Black."
+          head: auto-format-black-${{ github.run_id }}
           base: ${{ github.event.pull_request.base.ref || github.ref_name }}
-          branch: auto-format-black-${{ github.run_id }}
