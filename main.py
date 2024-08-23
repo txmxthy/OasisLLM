@@ -50,5 +50,6 @@ def main(first_run=None):
         functions[choice]()
         #
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main(first_run=True)
