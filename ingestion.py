@@ -35,7 +35,7 @@ def load_files(input_dir:str)->List[Document]:
                     raise ValueError(f"Filetype {ext} not supported")
                 files.append(doctype_loader(file_path).load()[0])
             pbar.update(1)
-    return files
+    return  files
 
 @click.command()
 @click.option(
