@@ -49,7 +49,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          token: ${{ secrets.PAT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           title: "chore: auto-format code with Black"
           body: "This PR auto-formats the codebase using Black."
           head: auto-format-black-${{ github.run_id }}
