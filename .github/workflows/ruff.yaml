@@ -30,6 +30,8 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
+        echo '[tool.ruff]' > pyproject.toml
+        echo 'line-length = 40' >> pyproject.toml
         ruff check --fix .
         git add -A
         git diff-index --quiet HEAD || echo "CHANGES_EXIST=true" >> $GITHUB_ENV
@@ -39,9 +41,9 @@ jobs:
       uses: peter-evans/create-pull-request@v5
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        commit-message: 'Auto-format Python code with Ruff'
-        title: 'Auto-format Python code'
-        body: 'This PR was automatically created to format Python code using Ruff.'
+        commit-message: 'Auto-format Python code with Ruff (line length 40)'
+        title: 'Auto-format Python code (line length 40)'
+        body: 'This PR was automatically created to format Python code using Ruff with a line length of 40 characters.'
         branch: auto-format-${{ github.sha }}
         base: ${{ github.ref }}
         delete-branch: true
