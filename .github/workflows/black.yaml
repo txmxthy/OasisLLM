@@ -43,14 +43,14 @@ jobs:
             git config --global user.email "github-actions[bot]@users.noreply.github.com"
             git add .
             git commit -m "chore: auto-format code with Black"
-            git push --set-upstream origin auto-format-black-${{ github.run_id }}
+            git push --set-upstream https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/${{ github.repository }}.git auto-format-black-${{ github.run_id }}
           fi
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }}
           title: "chore: auto-format code with Black"
           body: "This PR auto-formats the codebase using Black."
-          head: auto-format-black-${{ github.run_id }}
+          branch: auto-format-black-${{ github.run_id }}  # Corrected from 'head' to 'branch'
           base: ${{ github.event.pull_request.base.ref || github.ref_name }}
