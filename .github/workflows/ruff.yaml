@@ -1,0 +1,40 @@
+name: Python Lint and Format
+
+on:
+  push:
+    branches:
+      - master
+      - 'feature/**'
+  pull_request:
+    branches:
+      - master
+      - 'feature/**'
+
+jobs:
+  lint-and-format:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install Ruff
+      run: pip install ruff
+
+    - name: Run Ruff
+      run: ruff check --fix .
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v5
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: 'Auto-format Python code with Ruff'
+        title: 'Auto-format Python code'
+        body: 'This PR was automatically created to format Python code using Ruff.'
+        branch: auto-format-${{ github.sha }}
+        base: ${{ github.ref }}
