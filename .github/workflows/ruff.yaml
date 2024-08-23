@@ -26,15 +26,23 @@ jobs:
     - name: Install Ruff
       run: pip install ruff
 
-    - name: Run Ruff
-      run: ruff check --fix .
-
-    - name: Commit changes
+    - name: Create new branch
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
+        git checkout -b auto-format-${{ github.sha }}
+
+    - name: Run Ruff and commit changes
+      run: |
+        ruff check --fix .
         git add -A
         git diff-index --quiet HEAD || git commit -m "Auto-format Python code with Ruff"
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: auto-format-${{ github.sha }}
 
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v5
