@@ -1,0 +1,46 @@
+name: Black
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - 'feature/*'
+  pull_request:
+    branches:
+      - main
+      - master
+      - 'feature/*'
+
+jobs:
+  black:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache Black
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pypoetry
+          key: ${{ runner.os }}-black-${{ hashFiles('**/pyproject.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-black-
+
+      - name: Install Black
+        run: |
+          python -m pip install --upgrade pip
+          pip install black
+
+      - name: Format Code with Black
+        run: |
+          black .  # Format all Python files in the repo
+
+      - name: Commit and push changes
+        run: |
+          if [[ `git status --porcelain` ]]; then
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            git add .
+            git commit -m "chore: auto-format code with Black"
+            git push
+          fi

@@ -33,11 +33,7 @@ def main(first_run=None):
     :return:
 
     """
-
-
     while True:
-
-
         if not first_run:
             # Clear the console
             print("\033[H\033[J")
@@ -45,15 +41,14 @@ def main(first_run=None):
         print_header("The Oasis Toolkit")
         functions = {
             "Document Ingestion": ingest_main,
-                "Query": oasis_main,
+            "Query": oasis_main,
             "Config": configuration,
             "GPU Status": gpu_status,
         }
         # Call the select method and run the selected function
-        choice =    select([*functions.keys()])
-
+        choice = select([*functions.keys()])
         functions[choice]()
 
 
 if __name__ == '__main__':
-    main    (first_run=True)
+    main(first_run=True)
