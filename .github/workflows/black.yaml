@@ -46,11 +46,15 @@ jobs:
             git push --set-upstream https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/${{ github.repository }}.git auto-format-black-${{ github.run_id }}
           fi
 
+      - name: Push Branch
+        run: |
+          git push origin auto-format-black-${{ github.run_id }}
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.PAT_TOKEN }}
           title: "chore: auto-format code with Black"
           body: "This PR auto-formats the codebase using Black."
-          branch: auto-format-black-${{ github.run_id }}  # Corrected from 'head' to 'branch'
-          base: ${{ github.event.pull_request.base.ref || github.ref_name }}
+          branch: auto-format-black-${{ github.run_id }}  # This is the branch we pushed
+          base: master  # Target branch for the PR
