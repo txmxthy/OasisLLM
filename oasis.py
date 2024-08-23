@@ -25,7 +25,7 @@ def load_model():
         max_length=2048,
         temperature=0,
         top_p=0.95,
-        repetition_penalty=1.15
+        repetition_penalty=1.15,
     )
 
     llm = HuggingFacePipeline(pipeline=p)
@@ -40,10 +40,11 @@ def hw_model():
     """
     if torch.cuda.is_available():
         tokenizer = AutoTokenizer.from_pretrained(model_id)
-        model = AutoModelForCausalLM.from_pretrained(model_id,
-                                                     device_map='auto',
-                                                     torch_dtype=torch.float16,
-                                                     )
+        model = AutoModelForCausalLM.from_pretrained(
+            model_id,
+            device_map="auto",
+            torch_dtype=torch.float16,
+        )
     else:
         tokenizer = LlamaTokenizer.from_pretrained(model_id)
         model = LlamaForCausalLM.from_pretrained(model_id)
@@ -113,8 +114,7 @@ def restore_llm(device_type):
     # Load the embedder
     print("Loading Embeddings...")
     embeddings = HuggingFaceInstructEmbeddings(
-        model_name=embedding_model,
-        model_kwargs={"device": device_type}
+        model_name=embedding_model, model_kwargs={"device": device_type}
     )
     # Load Chroma Vector Database
     print("Loading Chroma...")
@@ -128,10 +128,7 @@ def restore_llm(device_type):
     llm = load_model()
     # https://python.langchain.com/en/latest/modules/chains/index_examples/vector_db_qa.html
     qa = RetrievalQA.from_chain_type(
-        llm=llm,
-        chain_type="stuff",
-        retriever=golden,
-        return_source_documents=True
+        llm=llm, chain_type="stuff", retriever=golden, return_source_documents=True
     )
     return qa
 
