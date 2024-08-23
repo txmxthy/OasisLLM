@@ -15,7 +15,7 @@ from utilities.constants import (CHROMA_CFG,
 
 # Config @TODO, Load config from env
 chunk_size = 1000
-chunk_overlap = 200d
+chunk_overlap = 200
 embedding_model="hkunlp/instructor-xl"
 
 
