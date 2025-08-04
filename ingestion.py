@@ -26,17 +26,14 @@ def load_files(input_dir: str) -> List[Document]:
     :return: the list of loaded files
     """
     files = []
-    num_files = len(os.listdir(input_dir))
-    with tqdm(total=num_files, desc="Loading files") as pbar:
-        for path in os.listdir(input_dir):
-            ext = os.path.splitext(path)[1]
-            if ext in DOCTYPE_LOADERS:
-                file_path = os.path.join(input_dir, path)
-                doctype_loader = DOCTYPE_LOADERS[ext]
-                if not doctype_loader:
-                    raise ValueError(f"Filetype {ext} not supported")
-                files.append(doctype_loader(file_path).load()[0])
-            pbar.update(1)
+    for path in tqdm(os.listdir(input_dir), desc="Loading", unit="file"):
+        ext = os.path.splitext(path)[1]
+        if ext in DOCTYPE_LOADERS:
+            file_path = os.path.join(input_dir, path)
+            doctype_loader = DOCTYPE_LOADERS[ext]
+            if not doctype_loader:
+                raise ValueError(f"Filetype {ext} not supported")
+            files.append(doctype_loader(file_path).load()[0])
     return files
 
 
